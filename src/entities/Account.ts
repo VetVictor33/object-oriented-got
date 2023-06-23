@@ -1,8 +1,8 @@
 import { OneToMany, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Char } from './Char';
 
-@Entity('users')
-export class User {
+@Entity('accounts')
+export class Account {
     @PrimaryGeneratedColumn()
     id: number
 
@@ -12,6 +12,6 @@ export class User {
     @Column({ type: 'text' })
     password: string
 
-    @OneToMany(() => Char, char => char.user)
+    @OneToMany(() => Char, char => char.account)
     chars: Char[]
 }

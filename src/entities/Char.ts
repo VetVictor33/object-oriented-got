@@ -1,5 +1,5 @@
 import { OneToMany, JoinColumn, ManyToOne, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from './User';
+import { Account } from './Account';
 import { Item } from './Item';
 
 @Entity('chars')
@@ -13,9 +13,9 @@ export class Char {
     @Column({ type: 'text' })
     profession: string
 
-    @ManyToOne(() => User, user => user.chars)
-    @JoinColumn({ name: 'user_id' })
-    user: User
+    @ManyToOne(() => Account, account => account.chars)
+    @JoinColumn({ name: 'account_id' })
+    account: Account
 
     @OneToMany(() => Item, item => item.owner)
     itens: Item[]

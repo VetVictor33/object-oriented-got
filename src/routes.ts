@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import { UserController } from './controllers/UserController';
+import { AccountController } from './controllers/AccountController';
+import { ValidadeUserData } from './middlewares/validateUserData';
 
 const routes = Router();
 
-routes.post('/user', new UserController().create)
+routes.post('/user', new ValidadeUserData().create, new AccountController().create)
 
 
 export default routes
