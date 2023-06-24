@@ -1,6 +1,6 @@
 import { Monster } from "../../entities/Monster";
 import { defaultMonsterEntityDefense, defaultMonsterEntityLife, defaultMonsterEntityStrength } from "../utils/balance/MonsterEntityBalance";
-import { Character } from "./Character";
+import { Soldier } from "./Soldier";
 
 export class MonsterEntity {
     private _name: string;

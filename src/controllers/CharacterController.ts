@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { QueryFailedError } from "typeorm";
 import { CharacterError } from "../errors/CharactersErrors";
 import { CharacterRepository } from "../repositories/CharacterRepository";
+import { Soldier } from "../game_data/classes/Soldier";
+import { ProfessionUtils } from "../utils/ProfessionUtils";
 
 export default class CharacterController {
     async create(req: Request, res: Response) {
@@ -9,7 +11,7 @@ export default class CharacterController {
         const { id: accountId } = req.user;
         try {
             const characters = await CharacterRepository.findAllinAccount(accountId);
-            if (characters.length >= 3) throw new CharacterError("");
+            if (characters && characters?.length >= 3) throw new CharacterError("");
 
             const newChar = await CharacterRepository.create(accountId, name, profession);
 
@@ -28,7 +30,6 @@ export default class CharacterController {
             const { id: accountId } = req.user;
             const characters = await CharacterRepository.findAllinAccount(accountId)
             if (!characters) return res.status(404).json({ message: "You have no characters yet!" })
-
             return res.json(characters)
 
         } catch (error) {
@@ -41,6 +42,7 @@ export default class CharacterController {
             if (!characters) throw new CharacterError('');
             return res.json(characters)
         } catch (error) {
+            console.log(error)
             if (error instanceof CharacterError) {
                 return res.status(404).json({ message: "No characters in the server" })
             }

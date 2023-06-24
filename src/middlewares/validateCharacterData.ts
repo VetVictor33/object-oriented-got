@@ -5,6 +5,8 @@ export class ValidadeCharacterData {
         const { name, profession } = req.body;
         if (!name || !profession) {
             return res.status(400).json({ message: "Inform both name and profession to create a cracter" })
+        } else if (profession !== 'warrior' && profession !== 'mage' && profession !== 'priest') {
+            return res.status(400).json({ message: "Invalid profession. Choose: mage, priest or warrior" })
         }
         next();
     }

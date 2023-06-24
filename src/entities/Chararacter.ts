@@ -14,7 +14,7 @@ export class Character {
     profession: string
 
     @Column({ type: 'integer', default: 1 })
-    level: string
+    level: number
 
     @ManyToOne(() => Account, account => account.chars)
     @JoinColumn({ name: 'account_id' })
