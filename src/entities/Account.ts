@@ -1,5 +1,5 @@
 import { OneToMany, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Char } from './Char';
+import { Character } from './Chararacter';
 
 @Entity('accounts')
 export class Account {
@@ -12,6 +12,6 @@ export class Account {
     @Column({ type: 'text' })
     password: string
 
-    @OneToMany(() => Char, char => char.account)
-    chars: Char[]
+    @OneToMany(() => Character, char => char.account)
+    chars: Character[]
 }

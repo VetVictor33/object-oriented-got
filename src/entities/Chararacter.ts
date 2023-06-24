@@ -3,7 +3,7 @@ import { Account } from './Account';
 import { Item } from './Item';
 
 @Entity('chars')
-export class Char {
+export class Character {
     @PrimaryGeneratedColumn()
     id: number
 
@@ -12,6 +12,9 @@ export class Char {
 
     @Column({ type: 'text' })
     profession: string
+
+    @Column({ type: 'integer', default: 1 })
+    level: string
 
     @ManyToOne(() => Account, account => account.chars)
     @JoinColumn({ name: 'account_id' })

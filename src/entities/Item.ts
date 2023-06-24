@@ -1,5 +1,5 @@
 import { ManyToOne, JoinColumn, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Char } from './Char';
+import { Character } from './Chararacter';
 
 @Entity('itens')
 export class Item {
@@ -12,7 +12,7 @@ export class Item {
     @Column({ type: 'text' })
     description: string
 
-    @ManyToOne(() => Char, char => char.itens)
+    @ManyToOne(() => Character, char => char.itens)
     @JoinColumn({ name: 'owner_id' })
-    owner: Char
+    owner: Character
 }
