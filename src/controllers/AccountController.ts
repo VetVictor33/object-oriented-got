@@ -3,6 +3,7 @@ import { AccountRepository } from "../repositories/AccountRepository";
 import bcrypt from "bcrypt";
 import JwsUtils from "../utils/JwsUtils";
 import { AccountError } from "../errors/AccountErrors";
+import { CharacterRepository } from "../repositories/CharacterRepository";
 
 export class AccountController {
   async create(req: Request, res: Response) {
@@ -23,7 +24,7 @@ export class AccountController {
     const { email, password } = req.body;
 
     try {
-      const accountData = await AccountRepository.findAccountByEmail(email);
+      const accountData = await AccountRepository.findByEmail(email);
 
       const { password: passwordHash, ...account } = accountData;
 
@@ -47,15 +48,16 @@ export class AccountController {
 
   async info(req: Request, res: Response) {
     try {
-      const { id: accountId } = req.user
-
-      const userData = await AccountRepository.findAccountById(accountId);
-
-      const { password: _, ...user } = userData;
-
+      const { id: accountId, email } = req.user
+      const characters = await CharacterRepository.findAllinAccount(accountId);
+      const data = { email, characters }
+      res.json(data)
 
     } catch (error) {
-
+      if (error instanceof AccountError) {
+        return res.status(400).json({ messsage: "Invalid credentials" })
+      }
+      return res.status(500).json({ message: "Internal server error" })
     }
   }
 }

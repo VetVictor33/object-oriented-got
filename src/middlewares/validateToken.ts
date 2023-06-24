@@ -21,7 +21,7 @@ export class validateToken {
             const validToken = JwsUtils.validateToken(token);
             const { userId: id } = validToken;
 
-            const Account = await AccountRepository.findAccountById(+id);
+            const Account = await AccountRepository.findById(+id);
 
             const { password: _, ...user } = Account!;
 

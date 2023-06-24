@@ -10,13 +10,12 @@ export abstract class AccountRepository {
         await this.accountRepository.save(newAccount);
         return newAccount
     }
-
-    public static async findAccountById(accountId: number): Promise<Account> {
+    public static async findById(accountId: number): Promise<Account> {
         const account = await this.accountRepository.findOneBy({ id: accountId });
         if (!account) throw new AccountError("Account not found")
         return account
     }
-    public static async findAccountByEmail(email: string): Promise<Account> {
+    public static async findByEmail(email: string): Promise<Account> {
         const account = await this.accountRepository.findOneBy({ email });
         if (!account) throw new AccountError("Account not found")
         return account
