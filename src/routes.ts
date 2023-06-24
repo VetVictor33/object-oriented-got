@@ -1,10 +1,12 @@
-import { IRouterMatcher, Router } from 'express';
+import { Router } from 'express';
 import { AccountController } from './controllers/AccountController';
 import { ValidadeAccountData } from './middlewares/validateAccountData';
 import { validateToken } from './middlewares/validateToken';
 import CharacterController from './controllers/CharacterController';
 import { ValidadeCharacterData } from './middlewares/validateCharacterData';
 import { validateAdmin } from './middlewares/validateAdmin';
+import MonsterController from './controllers/MonsterController';
+import { ValidadeMonsterData } from './middlewares/validateMonsterData';
 
 const routes = Router();
 
@@ -23,6 +25,9 @@ routes.delete('/account/characters/delete', new ValidadeCharacterData().deletati
 routes.use(new validateAdmin().validate as any);
 
 routes.get('/admin/accounts', new AccountController().allInfo as any);
+
+routes.post('/admin/monsters/create', new ValidadeMonsterData().creation as any, new MonsterController().create as any);
+routes.get('/admin/monsters', new MonsterController().findAll as any);
 
 
 export default routes
