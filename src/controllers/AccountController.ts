@@ -1,22 +1,18 @@
 import { Request, Response } from "express";
 import { AccountRepository } from "../repositories/AccountRepository";
-import { QueryFailedError } from "typeorm";
 import bcrypt from "bcrypt";
 import JwsUtils from "../utils/JwsUtils";
+import { AccountError } from "../errors/AccountErrors";
 
 export class AccountController {
   async create(req: Request, res: Response) {
     const { email, password } = req.body;
     try {
       const encryptedPassword = await bcrypt.hash(password, 10);
-      const newUser = AccountRepository.create(
-        { email, password: encryptedPassword });
-
-      await AccountRepository.save(newUser);
-
-      return res.status(201).json(newUser)
+      await AccountRepository.createAccount(email, encryptedPassword);
+      return res.status(204).send()
     } catch (error) {
-      if (error instanceof QueryFailedError) {
+      if (error instanceof AccountError) {
         return res.status(400).json({ messsage: "You may not use this email" })
       }
       return res.status(500).json({ message: "Internal server error" })
@@ -27,25 +23,39 @@ export class AccountController {
     const { email, password } = req.body;
 
     try {
-      const userData = await AccountRepository.findOneBy({ email });
+      const accountData = await AccountRepository.findAccountByEmail(email);
 
-      if (!userData) return res.status(400).json({ message: "Invalid credentials" });
-
-      const { password: passwordHash, ...user } = userData;
+      const { password: passwordHash, ...account } = accountData;
 
       const isPasswordCorrent = await bcrypt.compare(password, passwordHash);
 
-      if (!isPasswordCorrent) return res.status(400).json({ message: "Invalid credentials" })
+      if (!isPasswordCorrent) throw new AccountError('');
 
-      const token = JwsUtils.generateToken(user.id);
+      const token = JwsUtils.generateToken(account.id);
 
-      const response = { token, user }
+      const response = { token, user: account }
 
       return res.json(response);
 
     } catch (error) {
-      console.log(error);
+      if (error instanceof AccountError) {
+        return res.status(400).json({ messsage: "Invalid credentials" })
+      }
       return res.status(500).json({ message: "Internal server error" })
+    }
+  }
+
+  async info(req: Request, res: Response) {
+    try {
+      const { id: accountId } = req.user
+
+      const userData = await AccountRepository.findAccountById(accountId);
+
+      const { password: _, ...user } = userData;
+
+
+    } catch (error) {
+
     }
   }
 }

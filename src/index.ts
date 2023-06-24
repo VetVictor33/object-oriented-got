@@ -9,5 +9,16 @@ AppDataSource.initialize().then(() => {
 
     app.use(routes);
 
-    return app.listen(process.env.PORT || 3000)
+    const port = process.env.PORT || 3000;
+
+    const server = app.listen(port, () => {
+        console.log(`Server up on port ${port}`)
+    })
+
+    process.on('SIGINT', () => {
+        server.close()
+        console.log('Server down')
+    })
+
+    return server
 })

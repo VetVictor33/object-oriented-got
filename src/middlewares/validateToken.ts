@@ -19,9 +19,9 @@ export class validateToken {
             if (!authorization) throw new Error
             const token: string = authorization.split(' ')[1];
             const validToken = JwsUtils.validateToken(token);
-            let { userId: id } = validToken;
+            const { userId: id } = validToken;
 
-            const Account = await AccountRepository.findOneBy(id);
+            const Account = await AccountRepository.findAccountById(+id);
 
             const { password: _, ...user } = Account!;
 

@@ -11,7 +11,8 @@ routes.post('/account/login', new ValidadeAccountData().validateLogin as any, ne
 
 routes.use(new validateToken().validate as any);
 
-routes.post('/account/characters', new CharacterController().list as any);
+routes.get('/account',)
+routes.get('/account/characters', new CharacterController().list as any);
 routes.post('/account/characters/create', new CharacterController().create as any);
 
 
