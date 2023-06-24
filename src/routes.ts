@@ -4,6 +4,7 @@ import { ValidadeAccountData } from './middlewares/validateAccountData';
 import { validateToken } from './middlewares/validateToken';
 import CharacterController from './controllers/CharacterController';
 import { ValidadeCharacterData } from './middlewares/validateCharacterData';
+import { validateAdmin } from './middlewares/validateAdmin';
 
 const routes = Router();
 
@@ -18,6 +19,10 @@ routes.get('/account', new AccountController().info as any);
 routes.get('/account/characters', new CharacterController().listByAccount as any);
 routes.post('/account/characters/create', new ValidadeCharacterData().creation as any, new CharacterController().create as any);
 routes.delete('/account/characters/delete', new ValidadeCharacterData().deletation as any, new CharacterController().delete as any);
+
+routes.use(new validateAdmin().validate as any);
+
+routes.get('/admin/accounts', new AccountController().allInfo as any);
 
 
 export default routes

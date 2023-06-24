@@ -6,6 +6,7 @@ import { AccountError } from "../errors/AccountErrors";
 import { CharacterRepository } from "../repositories/CharacterRepository";
 
 export class AccountController {
+
   async create(req: Request, res: Response) {
     const { email, password } = req.body;
     try {
@@ -58,6 +59,15 @@ export class AccountController {
         return res.status(400).json({ messsage: "Invalid credentials" })
       }
       return res.status(500).json({ message: "Internal server error" })
+    }
+  }
+
+  async allInfo(req: Request, res: Response) {
+    try {
+      const accounts = await AccountRepository.findAll();
+      res.json(accounts)
+    } catch (error) {
+      res.status(500).json({ messsage: "Internal server error" })
     }
   }
 }

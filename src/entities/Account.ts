@@ -6,6 +6,9 @@ export class Account {
     @PrimaryGeneratedColumn()
     id: number
 
+    @Column({ type: Boolean, default: false })
+    admin: boolean
+
     @Column({ type: 'text', unique: true })
     email: string
 

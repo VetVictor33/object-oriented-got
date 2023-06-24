@@ -20,4 +20,10 @@ export abstract class AccountRepository {
         if (!account) throw new AccountError("Account not found")
         return account
     }
+    public static async findAll(): Promise<Account[]> {
+        const sensibleAccounts = await this.accountRepository.find();
+        sensibleAccounts.forEach(a => a.password = '******');
+        const unsensibleAccounts = sensibleAccounts;
+        return unsensibleAccounts
+    }
 }
