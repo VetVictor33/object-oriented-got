@@ -4,6 +4,7 @@ import { CharacterError } from "../errors/CharactersErrors";
 import { CharacterRepository } from "../repositories/CharacterRepository";
 import { Soldier } from "../game_data/classes/Soldier";
 import { ProfessionUtils } from "../utils/ProfessionUtils";
+import { BattleUtils } from "../game_data/utils/BattleUtils";
 
 export default class CharacterController {
     async create(req: Request, res: Response) {

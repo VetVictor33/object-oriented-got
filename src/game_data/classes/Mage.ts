@@ -9,9 +9,9 @@ export class Mage extends Soldier {
 
     constructor(mage: Character) {
         super(mage)
-        this.lifePoints *= this.LifePointsModifier;
-        this.strength *= this.StrengthModifier;
-        this.defense *= this.DefenseModifier;
+        this._lifePoints *= this.LifePointsModifier;
+        this._strength *= this.StrengthModifier;
+        this._defense *= this.DefenseModifier;
     }
     public attack(defender: Soldier | MonsterEntity): number {
         throw new Error("Method not implemented.");

@@ -5,35 +5,58 @@ import { MonsterEntity } from "./MonsterEntity";
 
 export abstract class Soldier {
     protected id: number;
-    protected name: string;
+    protected _name: string;
     protected profession: string;
     protected level: number;
-    protected lifePoints: number;
-    protected strength: number;
-    protected defense: number;
+    protected _lifePoints: number;
+    protected _strength: number;
+    protected _defense: number;
 
     constructor(soldier: Character) {
         this.id = soldier.id;
-        this.name = soldier.name;
+        this._name = soldier.name;
         this.profession = soldier.profession;
         this.level = soldier.level;
-        this.lifePoints = soldierDefaultLife;
-        this.strength = soldierDefaultStrength;
-        this.defense = soldierDefaultDefense
+        this._lifePoints = soldierDefaultLife;
+        this._strength = soldierDefaultStrength;
+        this._defense = soldierDefaultDefense
     }
 
-    public abstract attack(defender: Soldier | MonsterEntity): number;
-    public abstract defend(attacker: Soldier | MonsterEntity): number;
+
+    public get name(): string {
+        return this._name
+    }
+
+    public get defense(): number {
+        return this._defense
+    }
+
+
+    public get strength(): number {
+        return this._strength
+    }
+
+    public get lifePoints(): number {
+        return this._lifePoints
+    }
+
+    public infligeDamage(damage: number): void {
+        this._lifePoints -= damage
+    }
+
+    public isAlive(): boolean {
+        return this._lifePoints > 0 ? true : false
+    }
 
     public status(): SoldierStatus {
         return {
             id: this.id,
-            name: this.name,
+            name: this._name,
             profession: this.profession,
             level: this.level,
-            lifePoints: this.lifePoints,
-            strength: this.strength,
-            defense: this.defense
+            lifePoints: this._lifePoints,
+            strength: this._strength,
+            defense: this._defense
         };
     }
 }

@@ -14,11 +14,11 @@ export abstract class CharacterRepository {
         const account = await AccountRepository.findById(accountId);
         const newCharacter = this.characterRepository.create({ name, profession, account });
         await this.characterRepository.save(newCharacter);
-        const newSoldier = ProfessionUtils.DefineProfession(newCharacter)
+        const newSoldier = ProfessionUtils.DefineProfessionAndReturnStatus(newCharacter)
         return newSoldier
     }
 
-    public static async findOne(characterId: number, accountId: number): Promise<SoldierStatus | null> {
+    public static async findOne(characterId: number, accountId: number): Promise<Soldier | null> {
         const account = await AccountRepository.findById(accountId);
         const character = await this.characterRepository.findOneBy({ id: characterId, account });
         if (character) {
@@ -33,7 +33,7 @@ export abstract class CharacterRepository {
         const characters = await this.characterRepository.findBy({ account });
         if (characters.length > 0) {
             const Soldiers: SoldierStatus[] = [];
-            characters.forEach(c => Soldiers.push(ProfessionUtils.DefineProfession(c)))
+            characters.forEach(c => Soldiers.push(ProfessionUtils.DefineProfessionAndReturnStatus(c)))
             return Soldiers
         }
         return undefined
@@ -43,7 +43,7 @@ export abstract class CharacterRepository {
         const characters = await this.characterRepository.find();
         if (characters.length > 0) {
             const Soldiers: SoldierStatus[] = [];
-            characters.forEach(c => Soldiers.push(ProfessionUtils.DefineProfession(c)))
+            characters.forEach(c => Soldiers.push(ProfessionUtils.DefineProfessionAndReturnStatus(c)))
             return Soldiers
         }
         return undefined

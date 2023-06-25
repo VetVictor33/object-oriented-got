@@ -15,6 +15,30 @@ export class MonsterEntity {
         this._defense = (defaultMonsterEntityDefense * moster.dificulty);
     }
 
+    public get name(): string {
+        return this._name
+    }
+
+    public get defense(): number {
+        return this._defense
+    }
+
+    public get strength(): number {
+        return this._strength
+    }
+
+    public get lifePoints(): number {
+        return this._lifePoints
+    }
+
+    public infligeDamage(damage: number): void {
+        this._lifePoints -= damage
+    }
+
+    public isAlive(): boolean {
+        return this._lifePoints > 0 ? true : false
+    }
+
     public status(): object {
         const response = {
             name: this._name,
@@ -24,10 +48,5 @@ export class MonsterEntity {
         }
         return response
     };
-    //TODO: create mage, warriror, priest classes so attack and defense may by implemented
-    // public attack(defender: Character): number{
-
-    // };
-    // public defend(attacker: Character): number;
 
 }

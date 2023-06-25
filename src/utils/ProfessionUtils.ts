@@ -8,7 +8,12 @@ import { SoldierStatus } from "../interfaces/CharactersInterface";
 
 
 export abstract class ProfessionUtils {
-    public static DefineProfession(character: Character): SoldierStatus {
+    public static DefineProfessionAndReturnStatus(character: Character): SoldierStatus {
+        const newSoldier = this.DefineProfession(character);
+        const soldierStatus = this.ShowStatus(newSoldier)
+        return soldierStatus as SoldierStatus
+    }
+    public static DefineProfession(character: Character): Soldier {
         let newSoldier;
         switch (character.profession) {
             case ('mage'):
@@ -21,8 +26,7 @@ export abstract class ProfessionUtils {
                 newSoldier = new Warrior(character);
                 break;
         }
-        const soldierStatus = this.ShowStatus(newSoldier!)
-        return soldierStatus as SoldierStatus
+        return newSoldier!
     }
 
     private static ShowStatus(soldiers: Soldier | Soldier[]): SoldierStatus | SoldierStatus[] {
