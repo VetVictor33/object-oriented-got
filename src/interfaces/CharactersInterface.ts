@@ -3,6 +3,7 @@ export interface SoldierStatus {
     name: string,
     profession: string,
     level: number,
+    experience: number,
     lifePoints: number,
     strength: number,
     defense: number

@@ -1,4 +1,4 @@
-import { DeleteResult } from "typeorm";
+import { DeleteResult, UpdateResult } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { Character } from "../entities/Chararacter";
 import { CharacterError } from "../errors/CharactersErrors";
@@ -18,9 +18,17 @@ export abstract class CharacterRepository {
         return newSoldier
     }
 
-    public static async findOne(characterId: number, accountId: number): Promise<Soldier | null> {
+    public static async findOneinAccount(characterId: number, accountId: number): Promise<Soldier | null> {
         const account = await AccountRepository.findById(accountId);
         const character = await this.characterRepository.findOneBy({ id: characterId, account });
+        if (character) {
+            const newSoldier = ProfessionUtils.DefineProfession(character);
+            return newSoldier
+        }
+        return character
+    }
+    public static async findOne(characterId: number): Promise<Soldier | null> {
+        const character = await this.characterRepository.findOneBy({ id: characterId });
         if (character) {
             const newSoldier = ProfessionUtils.DefineProfession(character);
             return newSoldier
@@ -47,6 +55,16 @@ export abstract class CharacterRepository {
             return Soldiers
         }
         return undefined
+    }
+
+    public static async updateExperience(soldier: Soldier, value: number): Promise<UpdateResult> {
+        const updatedCaracter = await this.characterRepository.update({ id: soldier.id }, { experience: value });
+        return updatedCaracter
+    }
+
+    public static async updateLevel(soldier: Soldier, value: number): Promise<UpdateResult> {
+        const updatedCaracter = await this.characterRepository.update({ id: soldier.id }, { level: value });
+        return updatedCaracter
     }
 
     public static async deleteOneById(accountId: number, characterId: number): Promise<DeleteResult> {

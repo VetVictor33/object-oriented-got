@@ -1,36 +1,50 @@
 import { Character } from "../../entities/Chararacter";
 import { SoldierStatus } from "../../interfaces/CharactersInterface";
 import { soldierDefaultDefense, soldierDefaultLife, soldierDefaultStrength } from "../utils/balance/SoldierBalance";
-import { MonsterEntity } from "./MonsterEntity";
 
 export abstract class Soldier {
-    protected id: number;
+    protected _id: number;
     protected _name: string;
     protected profession: string;
-    protected level: number;
+    protected _level: number;
+    protected _experience: number;
     protected _lifePoints: number;
     protected _strength: number;
     protected _defense: number;
 
     constructor(soldier: Character) {
-        this.id = soldier.id;
+        this._id = soldier.id;
         this._name = soldier.name;
         this.profession = soldier.profession;
-        this.level = soldier.level;
-        this._lifePoints = soldierDefaultLife;
-        this._strength = soldierDefaultStrength;
-        this._defense = soldierDefaultDefense
+        this._level = soldier.level;
+        this._experience = soldier.experience;
+        this._lifePoints = Math.floor(soldierDefaultLife * this._level);
+        this._strength = Math.floor(soldierDefaultStrength * this._level);
+        this._defense = Math.floor(soldierDefaultDefense * this._level)
     }
 
+
+    public get id(): number {
+        return this._id
+    }
 
     public get name(): string {
         return this._name
     }
 
+
+    public get level(): number {
+        return this._level
+    }
+
+    public get experience(): number {
+        return this._experience
+    }
+
+
     public get defense(): number {
         return this._defense
     }
-
 
     public get strength(): number {
         return this._strength
@@ -50,10 +64,11 @@ export abstract class Soldier {
 
     public status(): SoldierStatus {
         return {
-            id: this.id,
+            id: this._id,
             name: this._name,
             profession: this.profession,
-            level: this.level,
+            level: this._level,
+            experience: this._experience,
             lifePoints: this._lifePoints,
             strength: this._strength,
             defense: this._defense

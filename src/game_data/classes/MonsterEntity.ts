@@ -4,19 +4,25 @@ import { Soldier } from "./Soldier";
 
 export class MonsterEntity {
     private _name: string;
+    private _dificulty: number;
     private _lifePoints: number;
     private _strength: number;
     private _defense: number;
 
     constructor(moster: Monster) {
         this._name = moster.name;
-        this._lifePoints = (defaultMonsterEntityLife * moster.dificulty);
-        this._strength = (defaultMonsterEntityStrength * moster.dificulty);
-        this._defense = (defaultMonsterEntityDefense * moster.dificulty);
+        this._dificulty = moster.dificulty;
+        this._lifePoints = Math.floor(defaultMonsterEntityLife * moster.dificulty);
+        this._strength = Math.floor(defaultMonsterEntityStrength * moster.dificulty);
+        this._defense = Math.floor(defaultMonsterEntityDefense * moster.dificulty);
     }
 
     public get name(): string {
         return this._name
+    }
+
+    public get dificulty(): number {
+        return this._dificulty
     }
 
     public get defense(): number {

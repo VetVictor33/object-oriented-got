@@ -1,6 +1,5 @@
 import { OneToMany, JoinColumn, ManyToOne, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Account } from './Account';
-import { Item } from './Item';
 
 @Entity('chars')
 export class Character {
@@ -16,10 +15,10 @@ export class Character {
     @Column({ type: 'integer', default: 1 })
     level: number
 
+    @Column({ type: 'float', default: 0 })
+    experience: number
+
     @ManyToOne(() => Account, account => account.chars)
     @JoinColumn({ name: 'account_id' })
     account: Account
-
-    @OneToMany(() => Item, item => item.owner)
-    itens: Item[]
 }

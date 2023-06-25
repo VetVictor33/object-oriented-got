@@ -18,7 +18,7 @@ export default class MonsterController {
             return res.status(500).json({ message: "Internal server error" })
         }
     }
-    async findAll(req: Request, res: Response) {
+    async listAll(req: Request, res: Response) {
         try {
             const monsters = await MonsterRepository.findAll();
             return res.json(monsters);

@@ -3,9 +3,9 @@ import { MonsterEntity } from "./MonsterEntity";
 import { Character } from "../../entities/Chararacter";
 
 export class Mage extends Soldier {
-    private LifePointsModifier: number = 0.6;
-    private StrengthModifier: number = 6;
-    private DefenseModifier: number = 0.3
+    private LifePointsModifier: number = 0.2;
+    private StrengthModifier: number = 0.6;
+    private DefenseModifier: number = 0.2
 
     constructor(mage: Character) {
         super(mage)
