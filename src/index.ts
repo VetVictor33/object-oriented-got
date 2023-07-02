@@ -4,10 +4,11 @@ import Routes from "./routes";
 
 AppDataSource.initialize().then(() => {
     const app = express();
+    const router: Routes = new Routes();
 
     app.use(express.json());
 
-    app.use(new Routes().router);
+    app.use(router.routes);
 
     const port = process.env.PORT || 3000;
 

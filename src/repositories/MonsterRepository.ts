@@ -13,8 +13,8 @@ export abstract class MonsterRepository {
         return monsterEntity
     }
 
-    public static async findMonsterById(mosnterId: number): Promise<MonsterEntity | null> {
-        const monster = (await this.monsterRepository.findOneBy({ id: mosnterId }))
+    public static async findMonster(mosnterName: string): Promise<MonsterEntity | null> {
+        const monster = (await this.monsterRepository.findOneBy({ name: mosnterName }))
         if (!monster) return monster
         const monsterEntity = new MonsterEntity(monster);
         return monsterEntity

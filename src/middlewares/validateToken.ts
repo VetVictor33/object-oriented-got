@@ -2,16 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import JwsUtils from "../utils/JwsUtils";
 import { AccountRepository } from "../repositories/AccountRepository";
 
-declare module "express" {
-    interface Request {
-        user: {
-            id: number,
-            email: string
-        };
-    }
-}
-
-
 export class ValidateToken {
     async validate(req: Request, res: Response, next: NextFunction) {
         const { authorization } = req.headers;

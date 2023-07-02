@@ -18,17 +18,17 @@ export abstract class CharacterRepository {
         return newSoldier
     }
 
-    public static async findOneinAccount(characterId: number, accountId: number): Promise<Soldier | null> {
+    public static async findOneinAccount(characterName: string, accountId: number): Promise<Soldier | null> {
         const account = await AccountRepository.findById(accountId);
-        const character = await this.characterRepository.findOneBy({ id: characterId, account });
+        const character = await this.characterRepository.findOneBy({ name: characterName, account });
         if (character) {
             const newSoldier = ProfessionUtils.DefineProfession(character);
             return newSoldier
         }
         return character
     }
-    public static async findOne(characterId: number): Promise<Soldier | null> {
-        const character = await this.characterRepository.findOneBy({ id: characterId });
+    public static async findOne(characterName: string): Promise<Soldier | null> {
+        const character = await this.characterRepository.findOneBy({ name: characterName });
         if (character) {
             const newSoldier = ProfessionUtils.DefineProfession(character);
             return newSoldier
