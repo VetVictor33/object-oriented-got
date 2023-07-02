@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-export class ValidadeCharacterData {
+export default class ValidadeCharacterData {
     creation(req: Request, res: Response, next: NextFunction) {
         const { name, profession } = req.body;
         if (!name || !profession) {

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-export class ValidadeMonsterData {
+export default class ValidadeMonsterData {
     creation(req: Request, res: Response, next: NextFunction) {
         const { name, dificulty } = req.body;
         if (!name || !dificulty) {

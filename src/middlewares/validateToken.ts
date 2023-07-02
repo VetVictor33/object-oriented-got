@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import JwsUtils from "../utils/JwsUtils";
 import { AccountRepository } from "../repositories/AccountRepository";
 
-export class ValidateToken {
+export default class ValidateToken {
     async validate(req: Request, res: Response, next: NextFunction) {
         const { authorization } = req.headers;
         try {

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-export class ValidadeAccountData {
+export default class ValidadeAccountData {
     creation(req: Request, res: Response, next: NextFunction) {
         const { email, password } = req.body;
         if (!email || !password) {

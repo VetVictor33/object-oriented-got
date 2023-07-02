@@ -1,13 +1,13 @@
-import express, { Router } from "express"
+import express, { Router } from "express";
 import { AccountController } from "./controllers/AccountController";
-import { ValidadeAccountData } from "./middlewares/validateAccountData";
-import { ValidateToken } from "./middlewares/validateToken";
 import CharacterController from "./controllers/CharacterController";
-import { ValidadeCharacterData } from "./middlewares/validateCharacterData";
-import { ValidateAdmin } from "./middlewares/validateAdmin";
-import { ValidadeMonsterData } from "./middlewares/validateMonsterData";
-import MonsterController from "./controllers/MonsterController";
 import FightController from "./controllers/FightController";
+import MonsterController from "./controllers/MonsterController";
+import ValidadeAccountData from "./middlewares/ValidateAccountData";
+import ValidateAdmin from "./middlewares/ValidateAdmin";
+import ValidadeCharacterData from "./middlewares/ValidateCharacterData";
+import ValidadeMonsterData from "./middlewares/ValidateMonsterData";
+import ValidateToken from "./middlewares/ValidateToken";
 
 export default class Routes {
     public routes: Router;
