@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { AccountRepository } from "../repositories/AccountRepository";
 
-export class validateAdmin {
+export class ValidateAdmin {
     async validate(req: Request, res: Response, next: NextFunction) {
         const { id } = req.user;
 

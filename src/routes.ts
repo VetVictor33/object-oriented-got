@@ -1,37 +1,51 @@
-import { Router } from 'express';
-import { AccountController } from './controllers/AccountController';
-import { ValidadeAccountData } from './middlewares/validateAccountData';
-import { validateToken } from './middlewares/validateToken';
-import CharacterController from './controllers/CharacterController';
-import { ValidadeCharacterData } from './middlewares/validateCharacterData';
-import { validateAdmin } from './middlewares/validateAdmin';
-import MonsterController from './controllers/MonsterController';
-import { ValidadeMonsterData } from './middlewares/validateMonsterData';
-import FightController from './controllers/FightController';
+import express, { Router } from "express"
+import { AccountController } from "./controllers/AccountController";
+import { ValidadeAccountData } from "./middlewares/validateAccountData";
+import { ValidateToken } from "./middlewares/validateToken";
+import CharacterController from "./controllers/CharacterController";
+import { ValidadeCharacterData } from "./middlewares/validateCharacterData";
+import { ValidateAdmin } from "./middlewares/validateAdmin";
+import { ValidadeMonsterData } from "./middlewares/validateMonsterData";
+import MonsterController from "./controllers/MonsterController";
+import FightController from "./controllers/FightController";
 
-const routes = Router();
+export default class Routes {
+    public router: Router;
 
-routes.post('/account/create', new ValidadeAccountData().creation as any, new AccountController().create as any);
-routes.post('/account/login', new ValidadeAccountData().login as any, new AccountController().login as any);
+    private protectedRoutes: ValidateToken = new ValidateToken();
+    private adminOnlyRoutes: ValidateAdmin = new ValidateAdmin();
 
-routes.get('/characters', new CharacterController().listAll as any);
-routes.get('/monsters', new MonsterController().listAll as any);
+    private validateAccount: ValidadeAccountData = new ValidadeAccountData();
+    private validateCharacter: ValidadeCharacterData = new ValidadeCharacterData();
+    private validateMonster: ValidadeMonsterData = new ValidadeMonsterData();
 
-routes.use(new validateToken().validate as any);
+    private accountController: AccountController = new AccountController();
+    private characterController: CharacterController = new CharacterController();
+    private monsterController: MonsterController = new MonsterController();
+    private fightController: FightController = new FightController();
 
-routes.get('/account', new AccountController().info as any);
-routes.get('/account/characters', new CharacterController().listByAccount as any);
-routes.post('/account/characters/create', new ValidadeCharacterData().creation as any, new CharacterController().create as any);
-routes.delete('/account/characters/delete', new ValidadeCharacterData().deletation as any, new CharacterController().delete as any);
+    constructor() {
+        this.router = express.Router();
+        this.registerRoutes();
+    }
 
-routes.post('/fight', new FightController().fight as any);
+    protected registerRoutes(): void {
+        this.router.get('/', (req, res) => res.send('Object Oriented GOT is alive!'))
+        this.router.post('/account/create', this.validateAccount.creation as any, this.accountController.create as any);
+        this.router.post('/account/login', this.validateAccount.login as any, this.accountController.login as any);
 
-routes.use(new validateAdmin().validate as any);
+        this.router.use(this.protectedRoutes.validate as any);
+        this.router.post('/fight', new FightController().fight as any);
 
-routes.get('/admin/accounts', new AccountController().allInfo as any);
+        this.router.get('/account', this.accountController.info as any);
+        this.router.get('/account/characters', this.characterController.listByAccount as any);
+        this.router.post('/account/characters/create', this.validateCharacter.creation as any, this.characterController.create as any);
+        this.router.delete('/account/characters/delete', this.validateCharacter.deletation as any, this.characterController.delete as any);
 
-routes.post('/admin/monsters/create', new ValidadeMonsterData().creation as any, new MonsterController().create as any);
-routes.get('/admin/monsters', new MonsterController().listAll as any);
+        this.router.use(this.adminOnlyRoutes.validate as any)
+        this.router.get('/admin/accounts', this.accountController.allInfo as any);
 
-
-export default routes
+        this.router.post('/admin/monsters/create', this.validateMonster.creation as any, this.monsterController.create as any);
+        this.router.get('/admin/monsters', this.monsterController.listAll as any);
+    }
+}

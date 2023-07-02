@@ -12,7 +12,7 @@ declare module "express" {
 }
 
 
-export class validateToken {
+export class ValidateToken {
     async validate(req: Request, res: Response, next: NextFunction) {
         const { authorization } = req.headers;
         try {
@@ -29,7 +29,7 @@ export class validateToken {
 
             next()
         } catch (error) {
-            return res.status(401).json({ message: "Invalid token" })
+            return res.status(401).json({ message: "Unauthorized!" })
         }
     }
 }

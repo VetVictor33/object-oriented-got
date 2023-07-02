@@ -1,13 +1,13 @@
 import express from "express";
 import { AppDataSource } from "./data-source";
-import routes from "./routes";
+import Routes from "./routes";
 
 AppDataSource.initialize().then(() => {
     const app = express();
 
     app.use(express.json());
 
-    app.use(routes);
+    app.use(new Routes().router);
 
     const port = process.env.PORT || 3000;
 

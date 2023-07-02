@@ -8,10 +8,8 @@ export default class MonsterController {
         const { name, dificulty } = req.body;
         try {
             const newMonster = await MonsterRepository.create(name, dificulty)
-            console.log(newMonster);
             return res.json(newMonster);
         } catch (error) {
-            console.log(error)
             if (error instanceof MonsterError) {
                 return res.status(400).json({ message: "Invalid data" })
             }
@@ -23,7 +21,6 @@ export default class MonsterController {
             const monsters = await MonsterRepository.findAll();
             return res.json(monsters);
         } catch (error) {
-            console.log(error)
             if (error instanceof MonsterError) {
                 return res.status(400).json({ message: "Invalid data" })
             }

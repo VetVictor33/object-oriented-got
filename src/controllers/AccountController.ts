@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import JwsUtils from "../utils/JwsUtils";
 import { AccountError } from "../errors/AccountErrors";
 import { CharacterRepository } from "../repositories/CharacterRepository";
+import { QueryFailedError } from "typeorm";
 
 export class AccountController {
 
@@ -14,7 +15,7 @@ export class AccountController {
       await AccountRepository.createAccount(email, encryptedPassword);
       return res.status(204).send()
     } catch (error) {
-      if (error instanceof AccountError) {
+      if (error instanceof QueryFailedError) {
         return res.status(400).json({ messsage: "You may not use this email" })
       }
       return res.status(500).json({ message: "Internal server error" })
